@@ -3,6 +3,7 @@ import { registerSchema } from "../lib/validator/auth-validator.js";
 import { db } from "../db/index.ts";
 import { usersTable } from "../db/schema.js";
 import { eq } from "drizzle-orm";
+import { hash } from '@node-rs/argon2'
 
 const auth = new Hono()
 
@@ -23,7 +24,20 @@ auth.post('/register', async (c) => {
     })
   }
 
-  return c.text('Berhasil')
+  const hashedPassword = await hash(validatedData.data.password, {
+    parallelism: 1
+  })
+
+  const userData = await db.insert(usersTable).values({
+    name: validatedData.data.name,
+    email: validatedData.data.email,
+    password_hash: hashedPassword
+  }).returning()
+
+  return c.json({
+    success: true,
+    data: userData
+  })
 })
 
 export default auth

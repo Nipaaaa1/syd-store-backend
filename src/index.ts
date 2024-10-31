@@ -10,9 +10,7 @@ const app = new Hono()
 app.use(logger())
 
 app.get('/', async (c) => {
-  const user = await db.select({
-    user_name: usersTable.name
-  }).from(usersTable)
+  const user = await db.select().from(usersTable)
   return c.json({
     data: user 
   })
