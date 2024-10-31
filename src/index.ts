@@ -2,10 +2,8 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { db } from './db/index.ts'
 import { usersTable } from './db/schema.ts'
-import { registerSchema } from "./lib/validator/auth-validator.ts";
 import { logger } from 'hono/logger';
-import { sign } from 'hono/jwt';
-import { env } from 'hono/adapter';
+import auth from './routes/auth.ts';
 
 const app = new Hono()
 
@@ -20,40 +18,7 @@ app.get('/', async (c) => {
   })
 })
 
-app.post('/auth/register', async (c) => {
-  const userData = await c.req.json()
-
-  const validUserData = registerSchema.safeParse(userData)
-
-  if(validUserData.error) {
-    return c.json(validUserData.error.format())
-  }
-
-  const accessTokenPayload = {
-    sub: validUserData.data.email,
-    exp: Math.floor(Date.now() / 1000) + 60 * 15
-  }
-
-  const refreshTokenPayload = {
-    sub: validUserData.data.email,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30
-  }
-
-  const { JWT_ACCESS_TOKEN_SECRET, JWT_REFRESH_TOKEN_SECRET } = env(c)
-
-  const accessToken = await sign(accessTokenPayload, JWT_ACCESS_TOKEN_SECRET as string)
-  const refreshToken = await sign(refreshTokenPayload, JWT_REFRESH_TOKEN_SECRET as string)
-
-  return c.json({
-    success: true,
-    data: {
-      access_token: accessToken,
-      refresh_token: refreshToken
-    }
-  })
-
-
-})
+app.route('/auth', auth)
 
 const port = 3000
 console.log(`Server is running on http://localhost:${port}`)

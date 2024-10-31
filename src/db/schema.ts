@@ -3,7 +3,8 @@ import { integer, pgTable, primaryKey, uuid, varchar } from "drizzle-orm/pg-core
 
 export const usersTable = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar('name', { length: 50 }).notNull().unique(),
+  name: varchar('name', { length: 50 }).notNull(),
+  email: varchar('email', { length: 50 }).notNull().unique(),
   password_hash: varchar('password_hash', { length: 255 }).notNull()
 })
 
