@@ -20,7 +20,13 @@
   "devDependencies": {
     "@types/node": "^20.11.17",
     "@types/pg": "^8.11.10",
+    "cz-conventional-changelog": "^3.3.0",
     "drizzle-kit": "^0.26.2",
     "tsx": "^4.7.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
