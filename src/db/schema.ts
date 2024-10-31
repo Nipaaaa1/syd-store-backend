@@ -26,11 +26,19 @@ export const itemsTagsTable = pgTable('items_tags', {
   pk: primaryKey({ columns: [table.item_id, table.tag_id] })
 }))
 
+export const refreshTokenTable = pgTable('refresh_token', {
+  owner_id: uuid('owner_id').references(() => usersTable.id).notNull(),
+  token: varchar('token', { length: 255 }).notNull()
+}, table => ({
+  pk: primaryKey({ columns: [table.owner_id, table.token]})
+}))
+
 
 // Relations
 
 export const usersRelations = relations(usersTable, ({ many }) => ({
-  items: many(itemsTable)
+  items: many(itemsTable),
+  tokens: many(refreshTokenTable)
 }))
 
 export const itemsRelations = relations(itemsTable, ({ one, many }) => ({
@@ -53,5 +61,12 @@ export const itemsTagsRelations = relations(itemsTagsTable, ({ one }) => ({
   tag: one(tagsTable, {
     fields: [itemsTagsTable.item_id],
     references: [tagsTable.id]
+  })
+}))
+
+export const refreshToketRelations = relations(refreshTokenTable, ({ one }) => ({
+  owner: one(usersTable, {
+    fields: [refreshTokenTable.owner_id],
+    references: [usersTable.id]
   })
 }))
