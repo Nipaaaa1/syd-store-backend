@@ -5,9 +5,10 @@ import { refreshTokenTable, usersTable } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 import { hash, verify } from '@node-rs/argon2'
 import { dateInSeconds } from "../lib/utils.js";
-import { sign } from "hono/jwt";
+import { sign, verify as jwtVerify } from "hono/jwt";
 import { env } from "hono/adapter";
-import { setCookie } from "hono/cookie";
+import { getCookie, setCookie } from "hono/cookie";
+import { access } from "fs";
 
 const auth = new Hono()
 
@@ -141,7 +142,49 @@ auth.post('/login', async (c) => {
   return c.json({
     success: true,
     data: {
-      accessToken: accessToken
+      accessToken,
+    }
+  })
+
+})
+
+// Refresm token
+auth.post('/refresh', async (c) => {
+  const refreshToken = getCookie(c, 'refresh_token') as string
+
+  const { JWT_REFRESH_TOKEN_SECRET, JWT_ACCESS_TOKEN_SECRET } = env(c)
+
+  const dbToken = await db.select({
+    token: refreshTokenTable.token,
+    owner: {
+      email: usersTable.email
+    }
+  }).from(refreshTokenTable).where(eq(refreshTokenTable.token, refreshToken)).leftJoin(usersTable, eq(refreshTokenTable.owner_id, usersTable.id))
+
+  if(dbToken.length == 0) {
+    return c.json({
+      success: false,
+      error: {
+        message: "Refresh token not found"
+      }
+    })
+  }
+  
+  const verifiedToken = await jwtVerify(refreshToken, JWT_REFRESH_TOKEN_SECRET as string)
+  
+  const accessPayload = {
+    sub: verifiedToken.sub,
+    email: dbToken[0].owner?.email,
+    exp: dateInSeconds(60 * 15)
+  }
+
+  const accessToken = await sign(accessPayload, JWT_ACCESS_TOKEN_SECRET as string)
+
+
+  return c.json({
+    success: true,
+    data: {
+      accessToken,
     }
   })
 
