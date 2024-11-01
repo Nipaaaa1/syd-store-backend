@@ -55,7 +55,7 @@ auth.post('/register', async (c) => {
     exp: dateInSeconds(60 * 60 * 24 * 30)
   }
 
-  const { JWT_ACCESS_TOKEN_SECRET, JWT_REFRESH_TOKEN_SECRET } = env(c)
+  const { JWT_ACCESS_TOKEN_SECRET, JWT_REFRESH_TOKEN_SECRET, AUTH_DOMAIN_URL } = env(c)
 
   const accessToken = await sign(accessPayload, JWT_ACCESS_TOKEN_SECRET as string)
   
@@ -68,7 +68,8 @@ auth.post('/register', async (c) => {
 
   setCookie(c, 'refresh_token', refreshToken, {
     httpOnly: true,
-    secure: true
+    domain: AUTH_DOMAIN_URL as string,
+    path: '/auth/refresh'
   })
 
   return c.json({
