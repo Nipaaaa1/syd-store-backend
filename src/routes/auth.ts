@@ -153,6 +153,27 @@ auth.post('/login', async (c) => {
 
 })
 
+auth.delete('/logout', async (c) => {
+  const refreshToken = getCookie(c, 'refresh_token') as string
+
+  const dbToken = await db.delete(refreshTokenTable).where(eq(refreshTokenTable.token, refreshToken)).returning({
+    token: refreshTokenTable.token
+  })
+
+  if(dbToken.length == 0) {
+    return c.json({
+      success: false,
+      error: {
+        message: 'Token not found'
+      }
+    })
+  }
+
+  return c.json({
+    success: true,
+  })
+})
+
 // Refresm token
 auth.post('/refresh', async (c) => {
   const refreshToken = getCookie(c, 'refresh_token') as string
