@@ -18,8 +18,19 @@ items.use('/*', (c, next) => {
 items.get('/', async (c) => {
   const payload = c.get('jwtPayload')
   
-  const allItems = await db.select().from(itemsTable).where(eq(itemsTable.owner_id, payload.sub))
-  return c.json(allItems)
+  try {
+    const allItems = await db.select().from(itemsTable).where(eq(itemsTable.owner_id, payload.sub))
+    
+    return c.json({
+      success: true,
+      data: allItems
+    })
+  } catch (error) {
+    return c.json({
+      success: false,
+      error,
+    })
+  }
 })
 
 export default items
