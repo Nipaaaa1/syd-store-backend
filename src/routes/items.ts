@@ -1,6 +1,9 @@
 import { Hono } from "hono";
 import { env } from "hono/adapter";
 import { jwt, type JwtVariables } from "hono/jwt";
+import { db } from "../db/index.js";
+import { itemsTable } from "../db/schema.js";
+import { eq } from "drizzle-orm";
 
 const items = new Hono<{ Variables:JwtVariables}>()
 
@@ -12,8 +15,11 @@ items.use('/*', (c, next) => {
   return jwtMiddleware(c, next)
 })
 
-items.get('/', (c) => {
-  return c.text('Berhasil')
+items.get('/', async (c) => {
+  const payload = c.get('jwtPayload')
+  
+  const allItems = await db.select().from(itemsTable).where(eq(itemsTable.owner_id, payload.sub))
+  return c.json(allItems)
 })
 
 export default items
