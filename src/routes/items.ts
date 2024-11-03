@@ -2,8 +2,9 @@ import { Hono } from "hono";
 import { env } from "hono/adapter";
 import { jwt, type JwtVariables } from "hono/jwt";
 import { db } from "../db/index.js";
-import { itemsTable } from "../db/schema.js";
+import { itemsTable, itemsTagsTable, tagsTable } from "../db/schema.js";
 import { eq } from "drizzle-orm";
+import { addItemSchema } from "../lib/validator/items-validator.js";
 
 const items = new Hono<{ Variables:JwtVariables}>()
 
@@ -31,6 +32,45 @@ items.get('/', async (c) => {
       error,
     })
   }
+})
+
+items.post('/', async (c) => {
+  const requestData = await c.req.json()
+  const payload = c.get('jwtPayload')
+
+  const validatedData = addItemSchema.safeParse(requestData)
+
+  if(!validatedData.success) {
+    return c.json({
+      success: false,
+      error: validatedData.error.format()
+    })
+  }
+
+  const item = await db.insert(itemsTable).values({
+    name: validatedData.data.name,
+    quantity: validatedData.data.quantity,
+    owner_id: payload.sub
+  }).returning()
+
+  const tag = await db.insert(tagsTable).values({
+    name: validatedData.data.tags
+  }).returning()
+
+  await db.insert(itemsTagsTable).values({
+    tag_id: tag[0].id,
+    item_id: item[0].id
+  })
+
+  return c.json({
+    success: true,
+    data: {
+      items: {
+        ...item[0],
+        tags: tag[0]
+      }
+    }
+  })
 })
 
 export default items
