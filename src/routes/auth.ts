@@ -8,7 +8,6 @@ import { dateInSeconds } from "../lib/utils.js";
 import { sign, verify as jwtVerify } from "hono/jwt";
 import { env } from "hono/adapter";
 import { getCookie, setCookie } from "hono/cookie";
-import { access } from "fs";
 
 const auth = new Hono()
 
@@ -134,6 +133,11 @@ auth.post('/login', async (c) => {
 
   const accessToken = await sign(accessPayload, JWT_ACCESS_TOKEN_SECRET as string)
   const refreshToken = await sign(refreshPayload, JWT_REFRESH_TOKEN_SECRET as string)
+
+  await db.insert(refreshTokenTable).values({
+    token: refreshToken,
+    owner_id: userData[0].userId
+  })
 
   setCookie(c, 'refresh_token', refreshToken, {
     httpOnly: true,
