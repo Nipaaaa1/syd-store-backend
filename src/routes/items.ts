@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { env } from "hono/adapter";
 import { jwt, type JwtVariables } from "hono/jwt";
 import { db } from "../db/index.js";
-import { itemsTable, itemsTagsTable, tagsTable } from "../db/schema.js";
+import { itemsTable } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 import { addItemSchema } from "../lib/validator/items-validator.js";
 
@@ -53,23 +53,9 @@ items.post('/', async (c) => {
     owner_id: payload.sub
   }).returning()
 
-  const tag = await db.insert(tagsTable).values({
-    name: validatedData.data.tags
-  }).returning()
-
-  await db.insert(itemsTagsTable).values({
-    tag_id: tag[0].id,
-    item_id: item[0].id
-  })
-
   return c.json({
     success: true,
-    data: {
-      items: {
-        ...item[0],
-        tags: tag[0]
-      }
-    }
+    data: item[0]
   })
 })
 
