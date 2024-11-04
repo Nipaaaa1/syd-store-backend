@@ -34,6 +34,30 @@ items.get('/', async (c) => {
   }
 })
 
+items.get('/:id', async (c) => {
+  const payload = c.get('jwtPayload')
+  const itemId = c.req.param('id')
+
+  const item = await db.select({
+    name: itemsTable.name,
+    quantity: itemsTable.quantity
+  }).from(itemsTable).where(and(eq(itemsTable.id, itemId), eq(itemsTable.owner_id, payload.sub)))
+
+  if(item.length === 0) {
+    return c.json({
+      success: false,
+      error: {
+        message: "Item not found"
+      }
+    })
+  }
+
+  return c.json({
+    success: true,
+    data: item[0]
+  })
+})
+
 items.post('/', async (c) => {
   const requestData = await c.req.json()
   const payload = c.get('jwtPayload')
