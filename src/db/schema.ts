@@ -10,7 +10,7 @@ export const usersTable = pgTable('users', {
 
 export const itemsTable = pgTable('items', {
   id: uuid('id').primaryKey().defaultRandom(),
-  owner_id: uuid('owner_id').references(() => usersTable.id),
+  owner_id: uuid('owner_id').references(() => usersTable.id, { onDelete: 'cascade'}),
   name: varchar('name', { length: 50 }).notNull().unique(),
   quantity: integer('quantity').notNull()
 })
@@ -21,8 +21,8 @@ export const tagsTable = pgTable('tags', {
 })
 
 export const itemsTagsTable = pgTable('items_tags', {
-  item_id: uuid('item_id').references(() => itemsTable.id).notNull(),
-  tag_id: uuid('tag_id').references(() => tagsTable.id).notNull()
+  item_id: uuid('item_id').references(() => itemsTable.id, { onDelete: 'cascade' }).notNull(),
+  tag_id: uuid('tag_id').references(() => tagsTable.id, { onDelete: 'cascade' }).notNull()
 }, table => ({
   pk: primaryKey({ columns: [table.item_id, table.tag_id] })
 }))

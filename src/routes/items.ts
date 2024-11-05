@@ -124,4 +124,25 @@ items.put('/:id', async (c) => {
 
 })
 
+items.delete('/:id', async (c) => {
+  const itemId = c.req.param('id')
+  const payload = c.get('jwtPayload')
+
+  const deletedItem = await db.delete(itemsTable).where(and(eq(itemsTable.id, itemId), eq(itemsTable.owner_id, payload.sub))).returning()
+
+  if(deletedItem.length === 0) {
+    return c.json({
+      success: false,
+      error: {
+        message: 'Item not found'
+      }
+    })
+  }
+
+  return c.json({
+    success: true,
+    data: deletedItem[0]
+  })
+})
+
 export default items
