@@ -4,7 +4,7 @@ import { db } from "../db/index.js";
 import { refreshTokenTable, usersTable } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 import { hash, verify } from '@node-rs/argon2'
-import { dateInSeconds } from "../lib/utils.js";
+import { dateInSeconds, handlePromise, returnData, returnError } from "../lib/utils.js";
 import { sign, verify as jwtVerify } from "hono/jwt";
 import { env } from "hono/adapter";
 import { getCookie, setCookie } from "hono/cookie";
@@ -21,62 +21,77 @@ auth.post('/register', async (c) => {
     return c.json(validatedData.error.format())
   }
 
-  const checkDb = await db.select({
+  const [ checkDbError, checkDbData ] = await handlePromise(db.select({
     email: usersTable.email
-  }).from(usersTable).where(eq(usersTable.email, validatedData.data.email))
-  if(checkDb.length > 0) {
-    return c.json({
-      error: "Email already exists!"
-    })
+  }).from(usersTable).where(eq(usersTable.email, validatedData.data.email)))
+
+  if(checkDbError) {
+    return c.json(returnError(checkDbError.message))
   }
 
-  const hashedPassword = await hash(validatedData.data.password, {
-    parallelism: 1
-  })
+  if(checkDbData.length > 0 ) {
+    return c.json(returnError('Email is used'))
+  }
 
-  const userData = await db.insert(usersTable).values({
+  const [ hashedPasswordError, hashedPasswordData ] = await handlePromise(hash(validatedData.data.password, {
+    parallelism: 1
+  }))
+
+  if(hashedPasswordError) {
+    return c.json(returnError(hashedPasswordError.message))
+  }
+
+  const [ registeredUserError, registeredUserData ] = await handlePromise(db.insert(usersTable).values({
     name: validatedData.data.name,
     email: validatedData.data.email,
-    password_hash: hashedPassword
+    password_hash: hashedPasswordData
   }).returning({
     userId: usersTable.id,
     userEmail: usersTable.email
-  })
+  }))
+
+  if(registeredUserError) {
+    return c.json(returnError(registeredUserError.message))
+  }
 
   const accessPayload = {
-    sub: userData[0].userId,
-    email: userData[0].userEmail,
+    sub: registeredUserData[0].userId,
+    email: registeredUserData[0].userEmail,
     exp: dateInSeconds(60 * 15) 
   }
 
   const refreshPayload = {
-    sub: userData[0].userId,
+    sub: registeredUserData[0].userId,
     exp: dateInSeconds(60 * 60 * 24 * 30)
   }
 
   const { JWT_ACCESS_TOKEN_SECRET, JWT_REFRESH_TOKEN_SECRET, AUTH_DOMAIN_URL } = env(c)
 
-  const accessToken = await sign(accessPayload, JWT_ACCESS_TOKEN_SECRET as string)
-  
-  const refreshToken = await sign(refreshPayload, JWT_REFRESH_TOKEN_SECRET as string)
+  const [ accessTokenError, accessTokenData ] = await handlePromise(sign(accessPayload, JWT_ACCESS_TOKEN_SECRET as string))
+
+  const [ refreshTokenError, refreshTokenData ] = await handlePromise(sign(refreshPayload, JWT_REFRESH_TOKEN_SECRET as string))
+
+  if(accessTokenError) {
+    return c.json(returnError(accessTokenError.message))
+  }
+
+  if(refreshTokenError) {
+    return c.json(returnError(refreshTokenError.message))
+  }
+
 
   await db.insert(refreshTokenTable).values({
-    owner_id: userData[0].userId,
-    token: refreshToken
+    owner_id: registeredUserData[0].userId,
+    token: refreshTokenData
   })
 
-  setCookie(c, 'refresh_token', refreshToken, {
+  setCookie(c, 'refresh_token', refreshTokenData, {
     httpOnly: true,
     domain: AUTH_DOMAIN_URL as string,
     path: '/auth/refresh'
   })
 
-  return c.json({
-    success: true,
-    data: {
-      accessToken,
-    }
-  })
+  return c.json(returnData({ accessToken: accessTokenData }))
 })
 
 // Login route
