@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Mie Goreng",
+    "quantity": 10,
+    "ownerName": "Jamal Hamdani"
+  },
+  {
+    "name": "Kursi",
+    "quantity": 4,
+    "ownerName": "Arya Wiguna"
+  },
+  {
+    "name": "Jaket parka",
+    "quantity": 2,
+    "ownerName": "Asep Malaka"
+  }
+]

@@ -28,7 +28,7 @@ export const itemsTagsTable = pgTable('items_tags', {
 }))
 
 export const refreshTokenTable = pgTable('refresh_token', {
-  owner_id: uuid('owner_id').references(() => usersTable.id).notNull(),
+  owner_id: uuid('owner_id').references(() => usersTable.id, { onDelete: 'cascade'}).notNull(),
   token: varchar('token', { length: 255 }).notNull()
 }, table => ({
   pk: primaryKey({ columns: [table.owner_id, table.token]})
