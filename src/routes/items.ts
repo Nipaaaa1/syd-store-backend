@@ -5,6 +5,7 @@ import { db } from "../db/index.js";
 import { itemsTable } from "../db/schema.js";
 import { and, eq } from "drizzle-orm";
 import { addItemSchema } from "../lib/validator/items-validator.js";
+import { zValidator } from "@hono/zod-validator";
 
 const items = new Hono<{ Variables:JwtVariables}>()
 
@@ -58,22 +59,13 @@ items.get('/:id', async (c) => {
   })
 })
 
-items.post('/', async (c) => {
-  const requestData = await c.req.json()
+items.post('/', zValidator('json', addItemSchema), async (c) => {
+  const data = c.req.valid('json')
   const payload = c.get('jwtPayload')
 
-  const validatedData = addItemSchema.safeParse(requestData)
-
-  if(!validatedData.success) {
-    return c.json({
-      success: false,
-      error: validatedData.error.format()
-    })
-  }
-
   const item = await db.insert(itemsTable).values({
-    name: validatedData.data.name,
-    quantity: validatedData.data.quantity,
+    name: data.name,
+    quantity: data.quantity,
     owner_id: payload.sub
   }).returning()
 
@@ -83,30 +75,25 @@ items.post('/', async (c) => {
   })
 })
 
-items.put('/:id', async (c) => {
-  const requestData = await c.req.json()
+items.put('/:id', zValidator('json', addItemSchema.partial()), async (c) => {
+  const data = c.req.valid('json')
   const itemId = c.req.param('id')
   const payload = c.get('jwtPayload')
 
-  const validatedData = addItemSchema.partial().safeParse(requestData)
-
-  if(validatedData.data === undefined) {
-    return c.json({
-      success: false,
-      error: {
-        message: 'Nothing to update.'
-      }
+  const updatedItem = await db
+    .update(itemsTable)
+    .set(data)
+    .where(
+      and(
+        eq(itemsTable.id, itemId),
+        eq(itemsTable.owner_id, payload.sub)
+      )
+    )
+    .returning({
+      id: itemsTable.id,
+      name: itemsTable.name,
+      quantity: itemsTable.quantity
     })
-  }
-
-  const updatedItem = await db.update(itemsTable).set({
-    name: validatedData.data.name,
-    quantity: validatedData.data.quantity
-  }).where(and(eq(itemsTable.id, itemId), eq(itemsTable.owner_id, payload.sub))).returning({
-    id: itemsTable.id,
-    name: itemsTable.name,
-    quantity: itemsTable.quantity
-  })
 
   if(updatedItem.length === 0) {
     return c.json({
