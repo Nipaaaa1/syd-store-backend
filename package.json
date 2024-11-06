@@ -3,6 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "test": "vitest",
     "db:test": "tsx ./src/db/test.ts",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
@@ -15,6 +16,7 @@
     "@node-rs/argon2": "^2.0.0",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.35.3",
+    "drizzle-zod": "^0.5.1",
     "hono": "^4.6.7",
     "pg": "^8.13.1",
     "zod": "^3.23.8"
