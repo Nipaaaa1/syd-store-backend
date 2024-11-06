@@ -8,22 +8,18 @@ import { dateInSeconds, handlePromise, returnData, returnError } from "../lib/ut
 import { sign, verify as jwtVerify } from "hono/jwt";
 import { env } from "hono/adapter";
 import { getCookie, setCookie } from "hono/cookie";
+import { zValidator } from "@hono/zod-validator";
 
 const auth = new Hono()
 
 // Register Route
 
-auth.post('/register', async (c) => {
-  const data = await c.req.json()
-
-  const validatedData = registerSchema.safeParse(data)
-  if(!validatedData.success) {
-    return c.json(validatedData.error.format())
-  }
+auth.post('/register', zValidator('json', registerSchema), async (c) => {
+  const data = c.req.valid('json')
 
   const [ checkDbError, checkDbData ] = await handlePromise(db.select({
     email: usersTable.email
-  }).from(usersTable).where(eq(usersTable.email, validatedData.data.email)))
+  }).from(usersTable).where(eq(usersTable.email, data.email)))
 
   if(checkDbError) {
     return c.json(returnError(checkDbError.message))
@@ -33,7 +29,7 @@ auth.post('/register', async (c) => {
     return c.json(returnError('Email is used'))
   }
 
-  const [ hashedPasswordError, hashedPasswordData ] = await handlePromise(hash(validatedData.data.password, {
+  const [ hashedPasswordError, hashedPasswordData ] = await handlePromise(hash(data.password, {
     parallelism: 1
   }))
 
@@ -42,8 +38,8 @@ auth.post('/register', async (c) => {
   }
 
   const [ registeredUserError, registeredUserData ] = await handlePromise(db.insert(usersTable).values({
-    name: validatedData.data.name,
-    email: validatedData.data.email,
+    name: data.name,
+    email: data.email,
     password_hash: hashedPasswordData
   }).returning({
     userId: usersTable.id,
@@ -96,20 +92,14 @@ auth.post('/register', async (c) => {
 
 // Login route
 
-auth.post('/login', async (c) => {
-  const data = await c.req.json()
-
-  const validatedData = loginSchema.safeParse(data)
-
-  if(!validatedData.success) {
-    return c.json(validatedData.error.format())
-  }
+auth.post('/login', zValidator('json', loginSchema), async (c) => {
+  const data = c.req.valid('json')
 
   const userData = await db.select({
     userId: usersTable.id,
     email: usersTable.email,
     passwordHash: usersTable.password_hash
-  }).from(usersTable).where(eq(usersTable.email, validatedData.data.email))
+  }).from(usersTable).where(eq(usersTable.email, data.email))
 
   if(userData.length == 0) {
     return c.json({
@@ -120,7 +110,7 @@ auth.post('/login', async (c) => {
     })
   }
 
-  const isPasswordVerified = await verify(userData[0].passwordHash, validatedData.data.password, {
+  const isPasswordVerified = await verify(userData[0].passwordHash, data.password, {
     parallelism: 1
   })
 

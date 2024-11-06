@@ -3,17 +3,20 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "test": "vitest",
     "db:test": "tsx ./src/db/test.ts",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:reset": "tsx ./src/delete.ts"
+    "db:seed": "tsx ./src/db/seed/index.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.3",
+    "@hono/zod-validator": "^0.4.1",
     "@node-rs/argon2": "^2.0.0",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.35.3",
+    "drizzle-zod": "^0.5.1",
     "hono": "^4.6.7",
     "pg": "^8.13.1",
     "zod": "^3.23.8"
@@ -23,7 +26,8 @@
     "@types/pg": "^8.11.10",
     "cz-conventional-changelog": "^3.3.0",
     "drizzle-kit": "^0.26.2",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "vitest": "^2.1.4"
   },
   "config": {
     "commitizen": {
