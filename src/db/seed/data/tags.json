@@ -1,17 +1,26 @@
 [
-  {
-    "name": "Electronics"
-  },
-  {
-    "name": "Furniture"
-  },
-  {
-    "name": "Plants"
-  },
-  {
-    "name": "Foods"
-  },
-  {
-    "name": "Fashion"
-  }
+    {
+        "name": "Furniture"
+    },
+    {
+        "name": "Electronics"
+    },
+    {
+        "name": "Appliances"
+    },
+    {
+        "name": "Clothing"
+    },
+    {
+        "name": "Toys"
+    },
+    {
+        "name": "Books"
+    },
+    {
+        "name": "Office Supplies"
+    },
+    {
+        "name": "Groceries"
+    }
 ]

@@ -1,17 +1,252 @@
 [
-  {
-    "name": "Mie Goreng",
-    "quantity": 10,
-    "ownerName": "Jamal Hamdani"
-  },
-  {
-    "name": "Kursi",
-    "quantity": 4,
-    "ownerName": "Arya Wiguna"
-  },
-  {
-    "name": "Jaket parka",
-    "quantity": 2,
-    "ownerName": "Asep Malaka"
-  }
+    {
+        "name": "Office Chair",
+        "quantity": 2,
+        "ownerName": "Alice Johnson"
+    },
+    {
+        "name": "Laptop",
+        "quantity": 5,
+        "ownerName": "Alice Johnson"
+    },
+    {
+        "name": "Sofa",
+        "quantity": 1,
+        "ownerName": "Bob Smith"
+    },
+    {
+        "name": "Television",
+        "quantity": 3,
+        "ownerName": "Bob Smith"
+    },
+    {
+        "name": "Refrigerator",
+        "quantity": 1,
+        "ownerName": "Charlie Brown"
+    },
+    {
+        "name": "Microwave",
+        "quantity": 2,
+        "ownerName": "Charlie Brown"
+    },
+    {
+        "name": "Jacket",
+        "quantity": 10,
+        "ownerName": "David Clark"
+    },
+    {
+        "name": "T-Shirt",
+        "quantity": 20,
+        "ownerName": "David Clark"
+    },
+    {
+        "name": "Action Figure",
+        "quantity": 15,
+        "ownerName": "Emily Davis"
+    },
+    {
+        "name": "Toy Car",
+        "quantity": 25,
+        "ownerName": "Emily Davis"
+    },
+    {
+        "name": "Bookshelf",
+        "quantity": 2,
+        "ownerName": "Frank Jones"
+    },
+    {
+        "name": "Printer",
+        "quantity": 3,
+        "ownerName": "Frank Jones"
+    },
+    {
+        "name": "Desk Lamp",
+        "quantity": 10,
+        "ownerName": "Grace Wilson"
+    },
+    {
+        "name": "Pens",
+        "quantity": 50,
+        "ownerName": "Grace Wilson"
+    },
+    {
+        "name": "Dining Table",
+        "quantity": 1,
+        "ownerName": "Hannah Moore"
+    },
+    {
+        "name": "Smartphone",
+        "quantity": 10,
+        "ownerName": "Hannah Moore"
+    },
+    {
+        "name": "Notebook",
+        "quantity": 30,
+        "ownerName": "Ian Walker"
+    },
+    {
+        "name": "Headphones",
+        "quantity": 5,
+        "ownerName": "Ian Walker"
+    },
+    {
+        "name": "Bed Frame",
+        "quantity": 1,
+        "ownerName": "Jane Adams"
+    },
+    {
+        "name": "Lamp",
+        "quantity": 4,
+        "ownerName": "Jane Adams"
+    },
+    {
+        "name": "Monitor",
+        "quantity": 6,
+        "ownerName": "Kevin Lee"
+    },
+    {
+        "name": "Office Desk",
+        "quantity": 1,
+        "ownerName": "Kevin Lee"
+    },
+    {
+        "name": "Jeans",
+        "quantity": 12,
+        "ownerName": "Lily Martin"
+    },
+    {
+        "name": "Sneakers",
+        "quantity": 8,
+        "ownerName": "Lily Martin"
+    },
+    {
+        "name": "Comic Book",
+        "quantity": 30,
+        "ownerName": "Michael Taylor"
+    },
+    {
+        "name": "Magazine",
+        "quantity": 20,
+        "ownerName": "Michael Taylor"
+    },
+    {
+        "name": "Stapler",
+        "quantity": 15,
+        "ownerName": "Nina Thomas"
+    },
+    {
+        "name": "Highlighters",
+        "quantity": 40,
+        "ownerName": "Nina Thomas"
+    },
+    {
+        "name": "Groceries Pack",
+        "quantity": 5,
+        "ownerName": "Oscar White"
+    },
+    {
+        "name": "Coffee Maker",
+        "quantity": 2,
+        "ownerName": "Oscar White"
+    },
+    {
+        "name": "Dining Chairs",
+        "quantity": 6,
+        "ownerName": "Alice Johnson"
+    },
+    {
+        "name": "Tablet",
+        "quantity": 4,
+        "ownerName": "Bob Smith"
+    },
+    {
+        "name": "Dress",
+        "quantity": 10,
+        "ownerName": "David Clark"
+    },
+    {
+        "name": "Toy Blocks",
+        "quantity": 30,
+        "ownerName": "Emily Davis"
+    },
+    {
+        "name": "Couch",
+        "quantity": 1,
+        "ownerName": "Frank Jones"
+    },
+    {
+        "name": "Laptop Stand",
+        "quantity": 7,
+        "ownerName": "Grace Wilson"
+    },
+    {
+        "name": "Conference Table",
+        "quantity": 1,
+        "ownerName": "Hannah Moore"
+    },
+    {
+        "name": "Sketchbook",
+        "quantity": 20,
+        "ownerName": "Ian Walker"
+    },
+    {
+        "name": "Standing Lamp",
+        "quantity": 3,
+        "ownerName": "Jane Adams"
+    },
+    {
+        "name": "USB Drives",
+        "quantity": 50,
+        "ownerName": "Kevin Lee"
+    },
+    {
+        "name": "Coat",
+        "quantity": 5,
+        "ownerName": "Lily Martin"
+    },
+    {
+        "name": "Books",
+        "quantity": 100,
+        "ownerName": "Michael Taylor"
+    },
+    {
+        "name": "Stationery Kit",
+        "quantity": 25,
+        "ownerName": "Nina Thomas"
+    },
+    {
+        "name": "Blender",
+        "quantity": 2,
+        "ownerName": "Oscar White"
+    },
+    {
+        "name": "Side Table",
+        "quantity": 3,
+        "ownerName": "Alice Johnson"
+    },
+    {
+        "name": "Gaming Console",
+        "quantity": 4,
+        "ownerName": "Bob Smith"
+    },
+    {
+        "name": "Winter Coat",
+        "quantity": 6,
+        "ownerName": "David Clark"
+    },
+    {
+        "name": "Kitchen Utensils",
+        "quantity": 100,
+        "ownerName": "Charlie Brown"
+    },
+    {
+        "name": "Backpack",
+        "quantity": 15,
+        "ownerName": "Hannah Moore"
+    },
+    {
+        "name": "Graphic Tablet",
+        "quantity": 3,
+        "ownerName": "Ian Walker"
+    }
 ]
