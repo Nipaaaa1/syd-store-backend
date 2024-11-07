@@ -4,7 +4,7 @@ import { jwt, type JwtVariables } from "hono/jwt";
 import { db } from "../db/index.js";
 import { itemsTable } from "../db/schema.js";
 import { and, eq } from "drizzle-orm";
-import { addItemSchema } from "../lib/validator/items-validator.js";
+import { insertItems } from "../lib/validator/items-validator.js";
 import { zValidator } from "@hono/zod-validator";
 
 const items = new Hono<{ Variables:JwtVariables}>()
@@ -59,7 +59,7 @@ items.get('/:id', async (c) => {
   })
 })
 
-items.post('/', zValidator('json', addItemSchema), async (c) => {
+items.post('/', zValidator('json', insertItems), async (c) => {
   const data = c.req.valid('json')
   const payload = c.get('jwtPayload')
 
@@ -75,7 +75,7 @@ items.post('/', zValidator('json', addItemSchema), async (c) => {
   })
 })
 
-items.put('/:id', zValidator('json', addItemSchema.partial()), async (c) => {
+items.put('/:id', zValidator('json', insertItems.partial()), async (c) => {
   const data = c.req.valid('json')
   const itemId = c.req.param('id')
   const payload = c.get('jwtPayload')
