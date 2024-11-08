@@ -5,7 +5,7 @@ export const usersTable = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 50 }).notNull(),
   email: varchar('email', { length: 50 }).notNull().unique(),
-  password_hash: varchar('password_hash', { length: 255 }).notNull()
+  password: varchar('password', { length: 255 }).notNull()
 })
 
 export const itemsTable = pgTable('items', {

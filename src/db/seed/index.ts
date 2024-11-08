@@ -16,6 +16,8 @@ const seedDb = async () => {
   await seedUser(db)
   await seedTags(db)
   await seedItems(db)
+
+  process.exit(1)
 }
 
 seedDb()

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { loginSchema, registerSchema } from "../lib/validator/auth-validator.js";
+import { insertUser } from "../lib/validator/auth-validator.js";
 import { db } from "../db/index.js";
 import { refreshTokenTable, usersTable } from "../db/schema.js";
 import { eq } from "drizzle-orm";
@@ -14,7 +14,7 @@ const auth = new Hono()
 
 // Register Route
 
-auth.post('/register', zValidator('json', registerSchema), async (c) => {
+auth.post('/register', zValidator('json', insertUser), async (c) => {
   const data = c.req.valid('json')
 
   const [ checkDbError, checkDbData ] = await handlePromise(db.select({
@@ -33,14 +33,12 @@ auth.post('/register', zValidator('json', registerSchema), async (c) => {
     parallelism: 1
   }))
 
-  if(hashedPasswordError) {
-    return c.json(returnError(hashedPasswordError.message))
-  }
+  if(hashedPasswordError) return c.json(returnError(hashedPasswordError.message))
 
   const [ registeredUserError, registeredUserData ] = await handlePromise(db.insert(usersTable).values({
     name: data.name,
     email: data.email,
-    password_hash: hashedPasswordData
+    password: hashedPasswordData
   }).returning({
     userId: usersTable.id,
     userEmail: usersTable.email
@@ -92,13 +90,13 @@ auth.post('/register', zValidator('json', registerSchema), async (c) => {
 
 // Login route
 
-auth.post('/login', zValidator('json', loginSchema), async (c) => {
+auth.post('/login', zValidator('json', insertUser.omit({ name: true })), async (c) => {
   const data = c.req.valid('json')
 
   const userData = await db.select({
     userId: usersTable.id,
     email: usersTable.email,
-    passwordHash: usersTable.password_hash
+    passwordHash: usersTable.password
   }).from(usersTable).where(eq(usersTable.email, data.email))
 
   if(userData.length == 0) {

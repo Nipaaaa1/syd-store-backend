@@ -12,7 +12,7 @@ export const seedUser = async (db: db) => {
       await db.insert(usersTable).values({
         name: user.name,
         email: user.email,
-        password_hash: hashedPassword
+        password: hashedPassword
       })
     })
   )
