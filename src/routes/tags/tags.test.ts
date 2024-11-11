@@ -1,6 +1,6 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { db } from "../../db/index.js";
-import { usersTable } from "../../db/schema.js";
+import { tagsTable, usersTable } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
 import { dateInSeconds } from "../../lib/utils.js";
 import { sign } from "hono/jwt";
@@ -26,6 +26,10 @@ describe('tags routes tests', () => {
       exp: dateInSeconds(60 * 15)
     }
     accessToken = await sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET as string)
+  })
+
+  afterAll(async () => {
+    await db.delete(tagsTable).where(eq(tagsTable.name, dummyTags.name))
   })
 
   it('should return all tags from the owner', async () => {
