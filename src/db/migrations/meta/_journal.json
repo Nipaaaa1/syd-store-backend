@@ -15,6 +15,13 @@
       "when": 1731287992313,
       "tag": "0001_small_silver_fox",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1731329842012,
+      "tag": "0002_dark_bloodstorm",
+      "breakpoints": true
     }
   ]
 }

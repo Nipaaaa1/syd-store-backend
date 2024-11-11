@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm"
 import { integer, pgTable, primaryKey, uuid, varchar } from "drizzle-orm/pg-core"
 
 export const usersTable = pgTable('users', {
@@ -26,54 +25,4 @@ export const itemsTagsTable = pgTable('items_tags', {
   tag_id: uuid('tag_id').references(() => tagsTable.id, { onDelete: 'cascade' }).notNull()
 }, table => ({
   pk: primaryKey({ columns: [table.item_id, table.tag_id] })
-}))
-
-export const refreshTokenTable = pgTable('refresh_token', {
-  owner_id: uuid('owner_id').references(() => usersTable.id, { onDelete: 'cascade'}).notNull(),
-  token: varchar('token', { length: 255 }).notNull()
-}, table => ({
-  pk: primaryKey({ columns: [table.owner_id, table.token]})
-}))
-
-
-// Relations
-
-export const usersRelations = relations(usersTable, ({ many }) => ({
-  items: many(itemsTable),
-  tags: many(tagsTable),
-  tokens: many(refreshTokenTable)
-}))
-
-export const itemsRelations = relations(itemsTable, ({ one, many }) => ({
-  owner: one(usersTable, {
-    fields: [itemsTable.owner_id],
-    references: [usersTable.id]
-  }),
-  items_tags: many(itemsTagsTable)
-}))
-
-export const tagsRelations = relations(tagsTable, ({ one, many }) => ({
-  owner: one(usersTable, {
-    fields: [tagsTable.owner_id],
-    references: [usersTable.id]
-  }),
-  items_tags: many(itemsTagsTable)
-}))
-
-export const itemsTagsRelations = relations(itemsTagsTable, ({ one }) => ({
-  item: one(itemsTable, {
-    fields: [itemsTagsTable.item_id],
-    references: [itemsTable.id]
-  }),
-  tag: one(tagsTable, {
-    fields: [itemsTagsTable.item_id],
-    references: [tagsTable.id]
-  })
-}))
-
-export const refreshToketRelations = relations(refreshTokenTable, ({ one }) => ({
-  owner: one(usersTable, {
-    fields: [refreshTokenTable.owner_id],
-    references: [usersTable.id]
-  })
 }))

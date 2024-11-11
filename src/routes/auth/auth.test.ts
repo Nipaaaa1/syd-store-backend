@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm"
 import { sign } from "hono/jwt"
 import userData from "../../db/seed/data/users.json"
 import { db } from '../../db/index.js'
-import { refreshTokenTable, usersTable } from '../../db/schema.js'
+import { usersTable } from '../../db/schema.js'
 import { dateInSeconds } from '../../lib/utils.js'
 import auth from './auth.index.js'
 
@@ -26,21 +26,13 @@ describe('Auth routes tests', () => {
 
     const payload = {
       sub: data.id,
-      email: data.email,
       exp: dateInSeconds(60 * 60 * 24 * 30)
     }
 
     refreshToken = await sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET as string)
-    await db
-      .insert(refreshTokenTable)
-      .values({
-        token: refreshToken,
-        owner_id: data.id
-      })
   })
 
   afterAll(async () => {
-    await db.delete(refreshTokenTable)
     await db.delete(usersTable).where(eq(usersTable.name, newUser.name))
     refreshToken = ''
   })
@@ -95,18 +87,4 @@ describe('Auth routes tests', () => {
     expect(data.success).toBeTruthy()
   })
 
-  it('should logout a user', async () => {
-    const res = await auth.request('/logout', {
-      method: 'DELETE',
-      headers: {
-        'Cookie': `refresh_token=${refreshToken}`
-      }
-    })
-
-    expect(res.status).toBe(200)
-
-    const data = await res.json()
-
-    expect(data.success).toBeTruthy()
-  })
 })

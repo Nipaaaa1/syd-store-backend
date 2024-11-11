@@ -1,5 +1,5 @@
 import { db, type dbType } from "../index.js"
-import { itemsTable, itemsTagsTable, refreshTokenTable, tagsTable, usersTable } from "../schema.js"
+import { itemsTable, itemsTagsTable, tagsTable, usersTable } from "../schema.js"
 import { seedItems } from "./items.js"
 import { seedTags } from "./tags.js"
 import { seedUser } from "./users.js"
@@ -10,7 +10,6 @@ const resetTable = async (db: dbType) => {
   await db.delete(itemsTable)
   await db.delete(tagsTable)
   await db.delete(itemsTagsTable)
-  await db.delete(refreshTokenTable)
 }
 
 const seedDb = async () => {
