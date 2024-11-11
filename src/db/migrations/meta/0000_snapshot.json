@@ -1,5 +1,5 @@
 {
-  "id": "f3bcf84f-d71e-4e3a-b7c6-ef426eb1c151",
+  "id": "3f304152-a854-475e-82e5-94207d8a1e04",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -46,7 +46,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -91,7 +91,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "items_tags_tag_id_tags_id_fk": {
@@ -104,7 +104,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -114,6 +114,51 @@
           "columns": [
             "item_id",
             "tag_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "public.refresh_token": {
+      "name": "refresh_token",
+      "schema": "",
+      "columns": {
+        "owner_id": {
+          "name": "owner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "refresh_token_owner_id_users_id_fk": {
+          "name": "refresh_token_owner_id_users_id_fk",
+          "tableFrom": "refresh_token",
+          "tableTo": "users",
+          "columnsFrom": [
+            "owner_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "refresh_token_owner_id_token_pk": {
+          "name": "refresh_token_owner_id_token_pk",
+          "columns": [
+            "owner_id",
+            "token"
           ]
         }
       },
@@ -169,8 +214,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "password_hash": {
-          "name": "password_hash",
+        "email": {
+          "name": "email",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
@@ -180,11 +231,11 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "users_name_unique": {
-          "name": "users_name_unique",
+        "users_email_unique": {
+          "name": "users_email_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "name"
+            "email"
           ]
         }
       },
