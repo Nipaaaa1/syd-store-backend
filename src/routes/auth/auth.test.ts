@@ -1,14 +1,12 @@
 import 'dotenv/config'
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
-import userData from '../src/db/seed/data/users.json'
-import { refreshTokenTable, usersTable } from "../src/db/schema.js"
-import { db } from "../src/db/index.js"
 import { eq } from "drizzle-orm"
-import auth from "../src/routes/auth.js"
 import { sign } from "hono/jwt"
-import { dateInSeconds } from "../src/lib/utils.js"
-
-
+import userData from "../../db/seed/data/users.json"
+import { db } from '../../db/index.js'
+import { refreshTokenTable, usersTable } from '../../db/schema.js'
+import { dateInSeconds } from '../../lib/utils.js'
+import auth from './auth.index.js'
 
 describe('Auth routes tests', () => {
   const [ user ] = userData.filter(user => user.name === 'Bob Smith')
@@ -24,7 +22,7 @@ describe('Auth routes tests', () => {
     const [ data ] = await db
       .select()
       .from(usersTable)
-      .where(eq(usersTable.email, user.email))
+      .where(eq(usersTable.name, user.name))
 
     const payload = {
       sub: data.id,

@@ -1,10 +1,10 @@
 import 'dotenv/config'
 import { describe,beforeAll, it, expect, afterAll } from "vitest";
-import items from "../src/routes/items.js";
-import { db } from "../src/db/index.js";
-import { usersTable } from "../src/db/schema.js";
+import items from "./items.index.js";
+import { db } from "../../db/index.js";
+import { usersTable } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
-import { dateInSeconds } from "../src/lib/utils.js";
+import { dateInSeconds } from "../../lib/utils.js";
 import { sign } from 'hono/jwt';
 
 describe('Items routes', () => {

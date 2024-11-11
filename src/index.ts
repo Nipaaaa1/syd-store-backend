@@ -1,9 +1,9 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { logger } from 'hono/logger';
-import auth from './routes/auth.js';
-import items from './routes/items.js';
-import tags from './routes/tags/tags.index.js';
+import tags from '@/routes/tags/tags.index.js';
+import auth from '@/routes/auth/auth.index.js';
+import items from '@/routes/items/items.index.js';
 
 const app = new Hono()
 

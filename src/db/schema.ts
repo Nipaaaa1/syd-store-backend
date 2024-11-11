@@ -10,7 +10,7 @@ export const usersTable = pgTable('users', {
 
 export const itemsTable = pgTable('items', {
   id: uuid('id').primaryKey().defaultRandom(),
-  owner_id: uuid('owner_id').references(() => usersTable.id, { onDelete: 'cascade'}),
+  owner_id: uuid('owner_id').references(() => usersTable.id, { onDelete: 'cascade'}).notNull(),
   name: varchar('name', { length: 50 }).notNull().unique(),
   quantity: integer('quantity').notNull()
 })

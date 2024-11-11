@@ -1,10 +1,10 @@
 import { Hono } from "hono";
-import { insertUser } from "../lib/validator/auth-validator.js";
-import { db } from "../db/index.js";
-import { refreshTokenTable, usersTable } from "../db/schema.js";
+import { insertUser } from "../../lib/validator/auth-validator.js";
+import { db } from "../../db/index.js";
+import { refreshTokenTable, usersTable } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
 import { hash, verify } from '@node-rs/argon2'
-import { dateInSeconds, handlePromise, returnData, returnError } from "../lib/utils.js";
+import { dateInSeconds, handlePromise, returnData, returnError } from "../../lib/utils.js";
 import { sign, verify as jwtVerify } from "hono/jwt";
 import { env } from "hono/adapter";
 import { getCookie, setCookie } from "hono/cookie";
