@@ -5,6 +5,8 @@ import { handlePromise, returnData, returnError } from "../../lib/utils.js";
 import { db } from "../../db/index.js";
 import { eq } from "drizzle-orm";
 import { tagsTable } from "../../db/schema.js";
+import { zValidator } from "@hono/zod-validator";
+import { insertTags } from "./tags.schema.js";
 
 const tags = new Hono<{
   Variables: JwtVariables
@@ -33,6 +35,22 @@ tags.get('/', async c => {
 
   if(error) return c.json(returnError(error.message))
   
+  return c.json(returnData(data))
+})
+
+tags.post('/', zValidator('json', insertTags), async c => {
+  const { name: tagsName } = c.req.valid('json')
+  const { sub: subject } = c.get('jwtPayload')
+
+  const [ error, data ] = await handlePromise(db
+    .insert(tagsTable)
+    .values({
+      name: tagsName,
+      owner_id: subject
+    })
+  )
+  
+  if(error) return c.json(returnError(error.message))
   return c.json(returnData(data))
 })
 
