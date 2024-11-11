@@ -17,7 +17,8 @@ export const itemsTable = pgTable('items', {
 
 export const tagsTable = pgTable('tags', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar('name', { length: 50 }).notNull().unique()
+  name: varchar('name', { length: 50 }).notNull(),
+  owner_id: uuid('owner_id').references(() => usersTable.id, { onDelete: 'cascade' }).notNull()
 })
 
 export const itemsTagsTable = pgTable('items_tags', {
@@ -39,6 +40,7 @@ export const refreshTokenTable = pgTable('refresh_token', {
 
 export const usersRelations = relations(usersTable, ({ many }) => ({
   items: many(itemsTable),
+  tags: many(tagsTable),
   tokens: many(refreshTokenTable)
 }))
 
@@ -50,7 +52,11 @@ export const itemsRelations = relations(itemsTable, ({ one, many }) => ({
   items_tags: many(itemsTagsTable)
 }))
 
-export const tagsRelations = relations(tagsTable, ({ many }) => ({
+export const tagsRelations = relations(tagsTable, ({ one, many }) => ({
+  owner: one(usersTable, {
+    fields: [tagsTable.owner_id],
+    references: [usersTable.id]
+  }),
   items_tags: many(itemsTagsTable)
 }))
 

@@ -8,6 +8,13 @@
       "when": 1731285576976,
       "tag": "0000_lame_professor_monster",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1731287992313,
+      "tag": "0001_small_silver_fox",
+      "breakpoints": true
     }
   ]
 }

@@ -1,26 +1,90 @@
 [
     {
-        "name": "Furniture"
+        "name": "Furniture",
+        "ownerName": "Alice Johnson"
     },
     {
-        "name": "Electronics"
+        "name": "Furniture",
+        "ownerName": "Bob Smith"
     },
     {
-        "name": "Appliances"
+        "name": "Furniture",
+        "ownerName": "Frank Jones"
     },
     {
-        "name": "Clothing"
+        "name": "Furniture",
+        "ownerName": "Hannah Moore"
     },
     {
-        "name": "Toys"
+        "name": "Electronics",
+        "ownerName": "Alice Johnson"
     },
     {
-        "name": "Books"
+        "name": "Electronics",
+        "ownerName": "Bob Smith"
     },
     {
-        "name": "Office Supplies"
+        "name": "Electronics",
+        "ownerName": "Grace Wilson"
     },
     {
-        "name": "Groceries"
+        "name": "Electronics",
+        "ownerName": "Ian Walker"
+    },
+    {
+        "name": "Appliances",
+        "ownerName": "Charlie Brown"
+    },
+    {
+        "name": "Appliances",
+        "ownerName": "Oscar White"
+    },
+    {
+        "name": "Clothing",
+        "ownerName": "David Clark"
+    },
+    {
+        "name": "Clothing",
+        "ownerName": "Lily Martin"
+    },
+    {
+        "name": "Clothing",
+        "ownerName": "David Clark"
+    },
+    {
+        "name": "Toys",
+        "ownerName": "Emily Davis"
+    },
+    {
+        "name": "Toys",
+        "ownerName": "Emily Davis"
+    },
+    {
+        "name": "Books",
+        "ownerName": "Michael Taylor"
+    },
+    {
+        "name": "Books",
+        "ownerName": "Jane Adams"
+    },
+    {
+        "name": "Office Supplies",
+        "ownerName": "Frank Jones"
+    },
+    {
+        "name": "Office Supplies",
+        "ownerName": "Grace Wilson"
+    },
+    {
+        "name": "Office Supplies",
+        "ownerName": "Kevin Lee"
+    },
+    {
+        "name": "Groceries",
+        "ownerName": "Oscar White"
+    },
+    {
+        "name": "Office Supplies",
+        "ownerName": "Nina Thomas"
     }
 ]
