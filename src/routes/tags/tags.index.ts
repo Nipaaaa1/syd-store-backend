@@ -1,12 +1,10 @@
 import { Hono } from "hono";
 import { env } from "hono/adapter";
 import { jwt, type JwtVariables } from "hono/jwt";
-import { handlePromise, returnData, returnError } from "../../lib/utils.js";
-import { db } from "../../db/index.js";
-import { tagsTable } from "../../db/schema.js";
+import { returnData, returnError } from "../../lib/utils.js";
 import { zValidator } from "@hono/zod-validator";
 import { insertTags } from "./tags.schema.js";
-import { getAllTagsFromOwnerId } from "./tags.utils.js";
+import { addTagWithOwnerId, getAllTagsFromOwnerId } from "./tags.utils.js";
 
 const tags = new Hono<{
   Variables: JwtVariables
@@ -36,15 +34,10 @@ tags.post('/', zValidator('json', insertTags), async c => {
   const { name: tagsName } = c.req.valid('json')
   const { sub: subject } = c.get('jwtPayload')
 
-  const [ error, data ] = await handlePromise(db
-    .insert(tagsTable)
-    .values({
-      name: tagsName,
-      owner_id: subject
-    })
-  )
-  
+  const [ error, data ] = await addTagWithOwnerId(tagsName, subject) 
+     
   if(error) return c.json(returnError(error.message))
+  
   return c.json(returnData(data))
 })
 

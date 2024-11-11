@@ -12,3 +12,14 @@ export const getAllTagsFromOwnerId = async (ownerId: string) => {
     )
   )
 }
+
+export const addTagsWithOwnerId = async (tagsName: string, ownerId: string) => {
+  return await handlePromise(db
+    .insert(tagsTable)
+    .values({
+      name: tagsName,
+      owner_id: ownerId
+    })
+    .returning()
+  )
+}
