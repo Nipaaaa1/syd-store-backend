@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { db } from "../../db/index.js";
-import { tagsTable, usersTable } from "../../db/schema.js";
+import { usersTable } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
 import { dateInSeconds } from "../../lib/utils.js";
 import { sign } from "hono/jwt";
@@ -9,8 +9,10 @@ import tags from "./tags.index.js";
 describe('tags routes tests', () => {
   let accessToken = ''
   let dummyTags = {
-    name: 'Camping Gear'
+    name: 'Camping Gear',
+    newName: 'Camping Tools'
   }
+  let tagId = ''
 
   beforeAll(async () => {
     const [ data ] = await db
@@ -29,7 +31,7 @@ describe('tags routes tests', () => {
   })
 
   afterAll(async () => {
-    await db.delete(tagsTable).where(eq(tagsTable.name, dummyTags.name))
+    tagId = ''
   })
 
   it('should return all tags from the owner', async () => {
@@ -54,7 +56,63 @@ describe('tags routes tests', () => {
         'Content-type': 'application/json',
         'Authorization': `Bearer ${accessToken}`
       },
-      body: JSON.stringify(dummyTags)
+      body: JSON.stringify({
+        name: dummyTags.name
+      })
+    })
+
+    expect(res.status).toBe(200)
+
+    const data = await res.json()
+
+    expect(data.success).toBeTruthy()
+
+    tagId = data.data[0].id
+  })
+
+  it('should get a tag', async () => {
+    const res = await tags.request(`/${tagId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    })
+
+    expect(res.status).toBe(200)
+
+    const data = await res.json()
+
+    expect(data.success).toBeTruthy()
+    expect(data.data[0].name).toBe(dummyTags.name)
+  })
+
+  it('should update a tag', async () => {
+    const res = await tags.request(`/${tagId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+      body: JSON.stringify({
+        name: dummyTags.newName
+      })
+    })
+
+    expect(res.status).toBe(200)
+
+    const data = await res.json()
+
+    expect(data.success).toBeTruthy()
+    expect(data.data[0].name).toBe(dummyTags.newName)
+  })
+
+  it('should delete a tag', async () => {
+    const res = await tags.request(`/${tagId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      }
     })
 
     expect(res.status).toBe(200)
@@ -63,4 +121,5 @@ describe('tags routes tests', () => {
 
     expect(data.success).toBeTruthy()
   })
+
 })
