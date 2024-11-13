@@ -1,77 +1,77 @@
 [
-    {
-        "name": "Alice Johnson",
-        "email": "alice_56@yahoo.com",
-        "password": "abc12345"
-    },
-    {
-        "name": "Bob Smith",
-        "email": "bobguy23@gmail.com",
-        "password": "password12"
-    },
-    {
-        "name": "Charlie Brown",
-        "email": "charlieb62@outlook.com",
-        "password": "charlie01"
-    },
-    {
-        "name": "David Clark",
-        "email": "clark_d12@hotmail.com",
-        "password": "davidpass2"
-    },
-    {
-        "name": "Emily Davis",
-        "email": "emily4ever@example.com",
-        "password": "emily2020"
-    },
-    {
-        "name": "Frank Jones",
-        "email": "jonesfr09@domain.com",
-        "password": "passfrank9"
-    },
-    {
-        "name": "Grace Wilson",
-        "email": "grace234@mail.com",
-        "password": "grace123"
-    },
-    {
-        "name": "Hannah Moore",
-        "email": "hmoore22@gmail.com",
-        "password": "hannah45"
-    },
-    {
-        "name": "Ian Walker",
-        "email": "iwalker98@outlook.com",
-        "password": "walkeri8"
-    },
-    {
-        "name": "Jane Adams",
-        "email": "adams34@domain.com",
-        "password": "adamsjane1"
-    },
-    {
-        "name": "Kevin Lee",
-        "email": "kevin_l45@yahoo.com",
-        "password": "lee789ke"
-    },
-    {
-        "name": "Lily Martin",
-        "email": "lilym1910@example.com",
-        "password": "lily1910"
-    },
-    {
-        "name": "Michael Taylor",
-        "email": "taylorm92@gmail.com",
-        "password": "mikepass6"
-    },
-    {
-        "name": "Nina Thomas",
-        "email": "nina4you@outlook.com",
-        "password": "thomasn4"
-    },
-    {
-        "name": "Oscar White",
-        "email": "oscar624@hotmail.com",
-        "password": "oscar2023"
-    }
+  {
+    "name": "Alice Johnson",
+    "email": "alice_56@yahoo.com",
+    "password": "abc12345"
+  },
+  {
+    "name": "Bob Smith",
+    "email": "bobguy23@gmail.com",
+    "password": "password12"
+  },
+  {
+    "name": "Charlie Brown",
+    "email": "charlieb62@outlook.com",
+    "password": "charlie01"
+  },
+  {
+    "name": "David Clark",
+    "email": "clark_d12@hotmail.com",
+    "password": "davidpass2"
+  },
+  {
+    "name": "Emily Davis",
+    "email": "emily4ever@example.com",
+    "password": "emily2020"
+  },
+  {
+    "name": "Frank Jones",
+    "email": "jonesfr09@domain.com",
+    "password": "passfrank9"
+  },
+  {
+    "name": "Grace Wilson",
+    "email": "grace234@mail.com",
+    "password": "grace123"
+  },
+  {
+    "name": "Hannah Moore",
+    "email": "hmoore22@gmail.com",
+    "password": "hannah45"
+  },
+  {
+    "name": "Ian Walker",
+    "email": "iwalker98@outlook.com",
+    "password": "walkeri8"
+  },
+  {
+    "name": "Jane Adams",
+    "email": "adams34@domain.com",
+    "password": "adamsjane1"
+  },
+  {
+    "name": "Kevin Lee",
+    "email": "kevin_l45@yahoo.com",
+    "password": "lee789ke"
+  },
+  {
+    "name": "Lily Martin",
+    "email": "lilym1910@example.com",
+    "password": "lily1910"
+  },
+  {
+    "name": "Michael Taylor",
+    "email": "taylorm92@gmail.com",
+    "password": "mikepass6"
+  },
+  {
+    "name": "Nina Thomas",
+    "email": "nina4you@outlook.com",
+    "password": "thomasn4"
+  },
+  {
+    "name": "Oscar White",
+    "email": "oscar624@hotmail.com",
+    "password": "oscar2023"
+  }
 ]

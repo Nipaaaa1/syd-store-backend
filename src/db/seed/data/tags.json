@@ -1,90 +1,90 @@
 [
-    {
-        "name": "Furniture",
-        "ownerName": "Alice Johnson"
-    },
-    {
-        "name": "Furniture",
-        "ownerName": "Bob Smith"
-    },
-    {
-        "name": "Furniture",
-        "ownerName": "Frank Jones"
-    },
-    {
-        "name": "Furniture",
-        "ownerName": "Hannah Moore"
-    },
-    {
-        "name": "Electronics",
-        "ownerName": "Alice Johnson"
-    },
-    {
-        "name": "Electronics",
-        "ownerName": "Bob Smith"
-    },
-    {
-        "name": "Electronics",
-        "ownerName": "Grace Wilson"
-    },
-    {
-        "name": "Electronics",
-        "ownerName": "Ian Walker"
-    },
-    {
-        "name": "Appliances",
-        "ownerName": "Charlie Brown"
-    },
-    {
-        "name": "Appliances",
-        "ownerName": "Oscar White"
-    },
-    {
-        "name": "Clothing",
-        "ownerName": "David Clark"
-    },
-    {
-        "name": "Clothing",
-        "ownerName": "Lily Martin"
-    },
-    {
-        "name": "Clothing",
-        "ownerName": "David Clark"
-    },
-    {
-        "name": "Toys",
-        "ownerName": "Emily Davis"
-    },
-    {
-        "name": "Toys",
-        "ownerName": "Emily Davis"
-    },
-    {
-        "name": "Books",
-        "ownerName": "Michael Taylor"
-    },
-    {
-        "name": "Books",
-        "ownerName": "Jane Adams"
-    },
-    {
-        "name": "Office Supplies",
-        "ownerName": "Frank Jones"
-    },
-    {
-        "name": "Office Supplies",
-        "ownerName": "Grace Wilson"
-    },
-    {
-        "name": "Office Supplies",
-        "ownerName": "Kevin Lee"
-    },
-    {
-        "name": "Groceries",
-        "ownerName": "Oscar White"
-    },
-    {
-        "name": "Office Supplies",
-        "ownerName": "Nina Thomas"
-    }
+  {
+    "name": "Furniture",
+    "ownerName": "Alice Johnson"
+  },
+  {
+    "name": "Furniture",
+    "ownerName": "Bob Smith"
+  },
+  {
+    "name": "Furniture",
+    "ownerName": "Frank Jones"
+  },
+  {
+    "name": "Furniture",
+    "ownerName": "Hannah Moore"
+  },
+  {
+    "name": "Electronics",
+    "ownerName": "Alice Johnson"
+  },
+  {
+    "name": "Electronics",
+    "ownerName": "Bob Smith"
+  },
+  {
+    "name": "Electronics",
+    "ownerName": "Grace Wilson"
+  },
+  {
+    "name": "Electronics",
+    "ownerName": "Ian Walker"
+  },
+  {
+    "name": "Appliances",
+    "ownerName": "Charlie Brown"
+  },
+  {
+    "name": "Appliances",
+    "ownerName": "Oscar White"
+  },
+  {
+    "name": "Clothing",
+    "ownerName": "David Clark"
+  },
+  {
+    "name": "Clothing",
+    "ownerName": "Lily Martin"
+  },
+  {
+    "name": "Clothing",
+    "ownerName": "David Clark"
+  },
+  {
+    "name": "Toys",
+    "ownerName": "Emily Davis"
+  },
+  {
+    "name": "Toys",
+    "ownerName": "Emily Davis"
+  },
+  {
+    "name": "Books",
+    "ownerName": "Michael Taylor"
+  },
+  {
+    "name": "Books",
+    "ownerName": "Jane Adams"
+  },
+  {
+    "name": "Office Supplies",
+    "ownerName": "Frank Jones"
+  },
+  {
+    "name": "Office Supplies",
+    "ownerName": "Grace Wilson"
+  },
+  {
+    "name": "Office Supplies",
+    "ownerName": "Kevin Lee"
+  },
+  {
+    "name": "Groceries",
+    "ownerName": "Oscar White"
+  },
+  {
+    "name": "Office Supplies",
+    "ownerName": "Nina Thomas"
+  }
 ]
